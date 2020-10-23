@@ -38,6 +38,6 @@ Steps :
 
 - Finally , Run the 4th step which verifies the connection.
 
-- After that, you can refer to the app/src/main/ folder for XML designing and Android developing.
+- After that, you can refer to the ```app/src/main/``` folder for XML designing and Android developing.
 
 ---
