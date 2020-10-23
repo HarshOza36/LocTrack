@@ -1,5 +1,5 @@
 # LocTrack
-A sample location tracking application connected with Firebase
+A sample location tracking application connected with Firebase. This app was created as a part of Mobile Communication and Computing (MCC) Project.
 
 Steps :
 
@@ -38,5 +38,6 @@ Steps :
 
 - Finally , Run the 4th step which verifies the connection.
 
----
+- After that, you can refer to the app/src/main/ folder for XML designing and Android developing.
 
+---
