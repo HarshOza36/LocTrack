@@ -19,9 +19,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -49,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // Creating objects
     private DatabaseReference databaseReference;
+    private DatabaseReference dbref;
     private LocationListener locationListener;
     private LocationManager locationManager;
     private final long MIN_TIME = 1000;
@@ -56,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private EditText editTextLatitude;
     private EditText editTextLongitude;
+    private Button readbutton;
 
 //    private Context mContext;
 //    private Resources mResources;
@@ -86,6 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         createNotificationChannel();
+        readbutton = (Button) findViewById(R.id.button3);
         //Creating a Bitmap
         Bitmap bg = Bitmap.createBitmap(720, 1280, Bitmap.Config.ARGB_8888);
 
@@ -245,6 +256,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        manager.notify(0,notif);
 
     }
+
     public void updateButtonOnCLick(View view) {
 
         databaseReference.child("latitude").push().setValue(editTextLatitude.getText().toString());
@@ -266,8 +278,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        manager.notify(notificationId, builder.build());
 
     }
-
-
 
     public void updateButtonOnCLickCurrent(View view) {
 
@@ -323,6 +333,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
+    }
+
+    public void showToast(String val){
+        // Creating a Toast
+        LayoutInflater inf = getLayoutInflater();
+        View layout = inf.inflate(R.layout.toast_layout,(ViewGroup) findViewById(R.id.toast_root));
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+
+    }
+
+    public void readdbButtonI(View view){
+        dbref = FirebaseDatabase.getInstance().getReference().child("Location");
+        dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String lat = snapshot.child("latitude").getValue().toString();
+                String[] stringLat = lat.split(", ");
+                String s_latitude = stringLat[0].split("=")[1];
+
+                String longi = snapshot.child("longitude").getValue().toString();
+                String[] stringLong = longi.split(", ");
+                String s_longitude = stringLong[0].split("=")[1];
+
+                // Create a Toast
+                Toast mToast = Toast.makeText(getApplicationContext(),"Latitude : "+s_latitude+"\nLongitude : "+s_longitude,Toast.LENGTH_LONG);
+                mToast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                View view=mToast.getView();
+                TextView  view1 = view.findViewById(android.R.id.message);
+                view1.setTextColor(Color.WHITE);
+                view.setBackgroundResource(R.color.colorPrimaryDark);
+                mToast.show();
+
+
+                // Custom Toast, Text Value cannot be changed at this moment(There maybe some method)
+//                showToast("Latitude : "+s_latitude+" Longitude : "+s_longitude);
+
+                Log.d("testPrintlat","Latitude : "+s_latitude+"\nLongitude : "+s_longitude);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }
