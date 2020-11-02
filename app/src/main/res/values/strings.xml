@@ -16,4 +16,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="channel_name">LocTrack</string>
     <string name="channel_description">Notifications_For_LocTrack</string>
+    <string name="LastLoc">Last Location</string>
 </resources>

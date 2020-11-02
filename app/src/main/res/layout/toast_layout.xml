@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toast_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_dark"
+    android:orientation="horizontal"
+    android:padding="8dp">
+    <ImageView
+        android:id="@+id/toast_img"
+        android:src="@drawable/ic_toast_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp" />
+    <TextView
+        android:id="@+id/toast_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="Latitude :  Longitude:"
+        android:textSize="16sp" />
+</LinearLayout>
