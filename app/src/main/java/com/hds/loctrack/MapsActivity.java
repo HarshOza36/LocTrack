@@ -66,6 +66,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText editTextLatitude;
     private EditText editTextLongitude;
     private Button readbutton;
+    private String main_lat;
+    private String main_long;
 
 //    private Context mContext;
 //    private Resources mResources;
@@ -140,6 +142,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String[] stringLong = databaseLongituteString.split(", ");
                     Arrays.sort(stringLong);
                     String longitude = stringLong[stringLong.length-1].split("=")[1];
+
+                    main_lat = latitude;
+                    main_long = longitude;
 
                     LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                     mMap.clear();
@@ -348,39 +353,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void readdbButtonI(View view){
-        dbref = FirebaseDatabase.getInstance().getReference().child("Location");
-        dbref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String lat = snapshot.child("latitude").getValue().toString();
-                String[] stringLat = lat.split(", ");
-                String s_latitude = stringLat[0].split("=")[1];
+//        dbref = FirebaseDatabase.getInstance().getReference().child("Location");
+        Log.d("updatedb",main_lat+"\n"+main_long);
+        // Create a Toast
+        Toast mToast = Toast.makeText(getApplicationContext(),"Latitude : "+main_lat+"\nLongitude : "+main_long,Toast.LENGTH_LONG);
+        mToast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+        View vieww=mToast.getView();
+        TextView  view1 = vieww.findViewById(android.R.id.message);
+        view1.setTextColor(Color.WHITE);
+        vieww.setBackgroundResource(R.color.colorPrimaryDark);
+        mToast.show();
 
-                String longi = snapshot.child("longitude").getValue().toString();
-                String[] stringLong = longi.split(", ");
-                String s_longitude = stringLong[0].split("=")[1];
+        // Custom Toast, Text Value cannot be changed at this moment(There maybe some method)
+////    showToast("Latitude : "+s_latitude+" Longitude : "+s_longitude);
+//
+////    Log.d("testPrintlat","Latitude : "+s_latitude+"\nLongitude : "+s_longitude+"\n"+lat+"\n"+longi);
 
-                // Create a Toast
-                Toast mToast = Toast.makeText(getApplicationContext(),"Latitude : "+s_latitude+"\nLongitude : "+s_longitude,Toast.LENGTH_LONG);
-                mToast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
-                View view=mToast.getView();
-                TextView  view1 = view.findViewById(android.R.id.message);
-                view1.setTextColor(Color.WHITE);
-                view.setBackgroundResource(R.color.colorPrimaryDark);
-                mToast.show();
-
-
-                // Custom Toast, Text Value cannot be changed at this moment(There maybe some method)
-//                showToast("Latitude : "+s_latitude+" Longitude : "+s_longitude);
-
-                Log.d("testPrintlat","Latitude : "+s_latitude+"\nLongitude : "+s_longitude);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
 }
