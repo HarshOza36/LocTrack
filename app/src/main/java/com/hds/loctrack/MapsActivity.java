@@ -143,8 +143,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Arrays.sort(stringLong);
                     String longitude = stringLong[stringLong.length-1].split("=")[1];
 
-                    main_lat = latitude;
-                    main_long = longitude;
+                    String latitude_m = stringLat[stringLat.length-2].split("=")[1];
+                    String longitude_m = stringLong[stringLong.length-1].split("=")[1];
+
+                    main_lat = latitude_m;
+                    main_long = longitude_m;
 
                     LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                     mMap.clear();
